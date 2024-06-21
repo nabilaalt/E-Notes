@@ -1,18 +1,17 @@
-package com.pbo.enotes.home;
+package com.pbo.enotes.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 
 
 
 @Controller
+@RequestMapping("/")
 public class HomeController {
-
-    @GetMapping("/")
+    @GetMapping("")  
     public String Home() {
-        return "index";
+        return "home/index";
     }
-    
-    
 }
