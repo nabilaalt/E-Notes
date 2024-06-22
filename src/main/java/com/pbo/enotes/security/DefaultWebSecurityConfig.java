@@ -1,11 +1,9 @@
 package com.pbo.enotes.security;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,24 +13,22 @@ import org.springframework.security.web.SecurityFilterChain;
 public class DefaultWebSecurityConfig {
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http.authorizeHttpRequests((requests) -> requests
-          .requestMatchers(
-              "/",
-              "/auth",
-              "/register",
-              "/css/**",
-              "/js/**",
-              "/assets/**",
-              "/ncss/**",
-              "/build/**",
-              "/jquery/**",
-              "/nfonts/**",
-              "/nimages/**",
-              "/njs/**",
-              "/webjars/toastr.js/**",
-              "/webjars/toastr.css/**"
-          ).permitAll()
-          .anyRequest().authenticated()
+    http
+        .authorizeHttpRequests((requests) -> requests
+            .requestMatchers(
+                "/",
+                "/auth",
+                "/register",
+                "/css/**",
+                "/js/**",
+                "/assets/**",
+                "/ncss/**",
+                "/build/**",
+                "/jquery/**",
+                "/api/users/**",
+                "/api/notes/**"
+            ).permitAll()
+            .anyRequest().authenticated()
         )
         .formLogin((form) -> form
             .loginPage("/getting-started")
@@ -40,18 +36,13 @@ public class DefaultWebSecurityConfig {
         )
         .logout((logout) -> logout
             .permitAll()
-        );
+        ).csrf().disable();  // Add this line to disable CSRF protection for testing purposes;
 
     return http.build();
-}
-
- 
+  }
 
   @Bean
   public PasswordEncoder passwordEncoder() {
       return new BCryptPasswordEncoder();
   }
-
 }
-
-
