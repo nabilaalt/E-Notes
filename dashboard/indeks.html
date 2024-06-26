@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Tasks</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/assets/fontawesome-free-6.5.2-web/css/all.min.css">
+
+</head>
+<body>
+    <div class="sidebar">
+        <!-- <div class="user-profile">
+            <img src="user.png" alt="User Profile">
+            <p>ridwanijazz</p>
+        </div> -->
+        <nav>
+            <ul>
+                <li><a href="#"><i class="fa-solid fa-list-check"></i>All</a></li>
+                <li><a href="#"><i class="fa-solid fa-stopwatch"></i>Today</a></li>
+                <li><a href="#"><i class="fa-solid fa-calendar-days"></i>Upcoming</a></li>
+                <li><a href="#"><i class="fa-solid fa-check-double"></i>Completed</a></li>
+            </ul>
+        </nav>
+        <!-- <div class="projects">
+            <h3>My Projects</h3>
+            <ul>
+                <li><a href="#">Project 1</a></li>
+                <li><a href="#">Project 2</a></li>
+            </ul>
+        </div> -->
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Tasks</h1>
+        </header>
+        <main>
+            <ul id="task-list">
+                <!-- Tasks will be dynamically added here -->
+            </ul>
+            <form id="task-form">
+                <input type="text" id="new-task" placeholder="Add a new task..." required>
+                <button type="submit">Add</button>
+            </form>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
