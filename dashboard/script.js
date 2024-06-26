@@ -1,73 +1,109 @@
+const body = document.querySelector('body'),
+      sidebar = body.querySelector('nav'),
+      toggle = body.querySelector(".toggle"),
+      modeSwitch = body.querySelector(".toggle-switch"),
+      modeText = body.querySelector(".mode-text");
+
+toggle.addEventListener("click", () => {
+    sidebar.classList.toggle("close");
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     const taskForm = document.getElementById('task-form');
-    const newTaskInput = document.getElementById('new-task');
+    const taskInput = document.getElementById('new-task');
     const taskList = document.getElementById('task-list');
 
-    taskForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        addTask(newTaskInput.value);
-        newTaskInput.value = '';
-    });
+    // Function to add a new task
+    // function addTask(taskText) {
+    //     const li = document.createElement('li');
+    //     li.className = 'task-item';
 
-    taskList.addEventListener('click', (e) => {
-        if (e.target.classList.contains('delete')) {
-            deleteTask(e.target.parentElement);
-        } else if (e.target.classList.contains('edit')) {
-            editTask(e.target.parentElement);
-        } else if (e.target.tagName === 'INPUT' && e.target.type === 'checkbox') {
-            toggleTask(e.target.parentElement);
-        }
-    });
+    //     const span = document.createElement('span');
+    //     span.className = 'task-text';
+    //     span.textContent = taskText;
 
-    taskList.addEventListener('keydown', (e) => {
-        if (e.target.tagName === 'INPUT' && e.target.type === 'text' && e.key === 'Enter') {
-            saveTask(e.target);
-        }
-    });
+    //     const editButton = document.createElement('button');
+    //     editButton.className = 'edit';
+    //     editButton.textContent = 'Edit';
 
+    //     const deleteButton = document.createElement('button');
+    //     deleteButton.className = 'delete';
+    //     deleteButton.textContent = 'Delete';
+
+    //     li.appendChild(span);
+    //     li.appendChild(editButton);
+    //     li.appendChild(deleteButton);
+    //     taskList.appendChild(li);
+
+    //     // Add event listeners to buttons
+    //     editButton.addEventListener('click', () => editTask(li));
+    //     deleteButton.addEventListener('click', () => deleteTask(li));
+    // }
     function addTask(taskText) {
         const li = document.createElement('li');
-        li.innerHTML = `
-            <input type="checkbox">
-            <label>${taskText}</label>
-            <input type="text" value="${taskText}">
-            <button class="edit">Edit</button>
-            <button class="delete">Delete</button>
-        `;
+        li.className = 'task-item';
+    
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'task-checkbox';
+    
+        const span = document.createElement('span');
+        span.className = 'task-text';
+        span.textContent = taskText;
+    
+        const editButton = document.createElement('button');
+        editButton.className = 'edit';
+        editButton.textContent = 'Edit';
+    
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'delete';
+        deleteButton.textContent = 'Delete';
+    
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(editButton);
+        li.appendChild(deleteButton);
         taskList.appendChild(li);
+    
+        // Add event listeners to buttons and checkbox
+        editButton.addEventListener('click', () => editTask(li));
+        deleteButton.addEventListener('click', () => deleteTask(li));
+        checkbox.addEventListener('change', () => toggleTaskCompletion(li, checkbox));
     }
-
-    function deleteTask(task) {
-        taskList.removeChild(task);
-    }
-
-    function editTask(task) {
-        const label = task.querySelector('label');
-        const input = task.querySelector('input[type="text"]');
-        const editButton = task.querySelector('button.edit');
-
-        if (input.style.display === 'none') {
-            input.style.display = 'block';
-            label.style.display = 'none';
-            editButton.textContent = 'Save';
-            input.focus();
+    
+    function toggleTaskCompletion(li, checkbox) {
+        if (checkbox.checked) {
+            li.classList.add('completed');
         } else {
-            saveTask(input);
+            li.classList.remove('completed');
+        }
+    }
+    
+
+    // Function to edit a task
+    function editTask(taskItem) {
+        const taskText = taskItem.querySelector('.task-text');
+        const newTaskText = prompt('Edit your task:', taskText.textContent);
+        if (newTaskText !== null && newTaskText.trim() !== '') {
+            taskText.textContent = newTaskText;
         }
     }
 
-    function saveTask(input) {
-        const task = input.parentElement;
-        const label = task.querySelector('label');
-        const editButton = task.querySelector('button.edit');
-
-        label.textContent = input.value;
-        input.style.display = 'none';
-        label.style.display = 'block';
-        editButton.textContent = 'Edit';
+    // Function to delete a task
+    function deleteTask(taskItem) {
+        taskList.removeChild(taskItem);
     }
 
-    function toggleTask(task) {
-        task.classList.toggle('completed');
-    }
+    // Handle form submission
+    taskForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const newTaskText = taskInput.value.trim();
+        if (newTaskText !== '') {
+            addTask(newTaskText);
+            taskInput.value = ''; // Clear the input field
+        }
+    });
+
+    
 });
+
