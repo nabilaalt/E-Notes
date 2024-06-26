@@ -27,10 +27,10 @@ public class RegisterController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/getting-started")
+    @GetMapping("/register")
     public String showForms(Model model) {
         model.addAttribute("user", new User());
-        return "login/index"; // Nama file HTML Anda
+        return "register/signup"; // Nama file HTML Anda
     }
 
     @PostMapping("/register")

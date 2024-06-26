@@ -35,7 +35,7 @@ public class DefaultWebSecurityConfig {
           .anyRequest().authenticated()
         )
         .formLogin((form) -> form
-            .loginPage("/getting-started")
+            .loginPage("/login")
             .permitAll()
         )
         .logout((logout) -> logout
