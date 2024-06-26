@@ -119,9 +119,9 @@ body.dark .sidebar header .toggle {
     transform: translateY(-50%) rotate(0deg);
 }
 
-.sidebar .menu {
+/* .sidebar .menu {
     margin-top: 40px;
-}
+} */
 
 .sidebar li a {
     list-style: none;
@@ -152,7 +152,7 @@ body.dark .sidebar li a:hover .text {
 
 .sidebar .menu-bar {
     height: calc(100% - 55px);
-    display: flex;
+    display:flexbox ;
     flex-direction: column;
     justify-content: space-between;
     overflow-y: scroll;
@@ -305,3 +305,47 @@ main {
     opacity: 0.5;
     pointer-events: none;
 }
+
+.profile {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: var(--primary-color-light);
+    border-radius: 8px;
+}
+
+.profile-details {
+    display: flex;
+    align-items: center;
+}
+
+.profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-name {
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+body.dark .profile {
+    background-color: var(--primary-color);
+}
+
+body.dark .profile-name {
+    color: var(--sidebar-color);
+}
+
+.bottom-content {
+    margin-top: 290px;
+}
+
