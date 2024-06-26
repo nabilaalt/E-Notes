@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Notes</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/toastr.min.css" />
+    <link rel="stylesheet" href="/css/toastr.css" />
+
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/toastr.min.js"></script>
+    <script src="/js/scripts.js" defer></script>
+</head>
+<body>
+    <div class="box" id="box">
+        <span class="borderLine"></span>
+        <form id="signInForm" th:action="@{/auth}" th:object="${user}" method="post">
+            <h2>Sign In</h2>
+            <div class="inputBox">
+                <input type="text" th:field="*{username}" required="required" name="username">
+                <span>Username</span>
+                <i></i>
+            </div>
+            <div class="inputBox">
+                <input type="password" th:field="*{password}" required="required" name="password">
+                <span>Password</span>
+                <i></i>
+            </div>
+            <div class="signup-links">
+                <a href="#">Forgot Password</a>
+                <a href="#" onclick="toggleForms()">Sign Up</a>
+            </div>
+            <input type="submit" value="Login">
+        </form>
+        <form id="signUpForm" th:action="@{/register}" th:object="${user}" method="post" style="display: none;">
+            <h2>Sign Up</h2>
+            <div class="inputBox">
+                <input type="email" th:field="*{email}" required="required">
+                <span>Email</span>
+                <i></i>
+            </div>
+            <div class="inputBox">
+                <input type="text" th:field="*{username}" required="required">
+                <span>Username</span>
+                <i></i>
+            </div>
+            <div class="inputBox">
+                <input type="password" th:field="*{password}" required="required">
+                <span>Password</span>
+                <i></i>
+            </div>
+            <div class="inputBox">
+                <input type="password" th:field="*{confirmPassword}" required="required">
+                <span>Confirm Password</span>
+                <i></i>
+                <div th:if="${errorMessage}" class="alert alert-danger">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+            </div>
+            <div class="signin-links">
+                <span class="signup">Already have an account?
+                    <a href="#" onclick="toggleForms()">Sign In</a>
+                </span>
+            </div>
+            <input type="submit" value="Sign Up">
+        </form>
+    </div>
+
+    <script>
+        function toggleForms() {
+            var signInForm = document.getElementById('signInForm');
+            var signUpForm = document.getElementById('signUpForm');
+            if (signInForm.style.display === 'none') {
+                signInForm.style.display = 'block';
+                signUpForm.style.display = 'none';
+            } else {
+                signInForm.style.display = 'none';
+                signUpForm.style.display = 'block';
+            }
+        }
+
+        function showSuccessToast(message, status = 0) {
+            toastr.options = {
+                "closeButton": true,
+                "progressBar": true,
+                "timeOut": "3000",
+                "extendedTimeOut": "1000"
+            };
+            toastr.success(message);
+
+            if (status) {
+                var signUpForm = document.getElementById('signUpForm');
+                signUpForm.reset();
+                toggleForms();
+            }
+        }
+
+        document.getElementById('signUpForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            fetch('/register', {
+                method: 'POST',
+                body: new FormData(event.target)
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    return response.text().then(text => {
+                        throw new Error(text);
+                    });
+                }
+            })
+            .then(data => {
+                console.log(data);
+                showSuccessToast(data, 1);
+            })
+            .catch(error => {
+                console.error('Error during registration:', error);
+                toastr.error(error.message);
+            });
+        });
+
+
+
+        document.getElementById('signInForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+        
+            fetch('/auth', {
+                method: 'POST',
+                body: new FormData(event.target)
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log(response);
+                    return response.text();
+                } else {
+                    return response.text().then(text => {
+                        throw new Error(text);
+                    });
+                }
+            })
+            .then(data => {
+                // console.log(data);
+                showSuccessToast(data); // Display success toast
+                // window.location.href = '/'; // Redirect to home page after successful login
+            })
+            .catch(error => {
+                console.error('Error during login:', error);
+                toastr.error(error.message);
+            });
+        });
+    </script>
+</body>
+</html>
