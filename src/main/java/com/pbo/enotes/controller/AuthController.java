@@ -33,10 +33,11 @@ public class AuthController {
 
     @PostMapping("/auth")
     public ResponseEntity<String> loginUser(@ModelAttribute User user, BindingResult result, HttpSession session) {
+    
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid form data");
         }
-
+    
         User existingUser = userRepository.findByUsername(user.getUsername());
         if (existingUser != null && passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
             session.setAttribute("user", existingUser);
@@ -45,4 +46,8 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials!");
         }
     }
-}
+    
+    
+    
+    
+    }
