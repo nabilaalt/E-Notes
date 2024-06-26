@@ -37,6 +37,10 @@ public class User {
     @JoinColumn(name = "user_id") // Foreign key in Note table
     private Set<Note> notes;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id") // Foreign key in Task table
+    private Set<Task> tasks;
+
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -94,6 +98,10 @@ public class User {
 
     public Set<Note> getNotes() {
         return notes;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
     }
 
     public void setNotes(Set<Note> notes) {

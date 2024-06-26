@@ -16,7 +16,7 @@ public class DefaultWebSecurityConfig {
     http
         .authorizeHttpRequests((requests) -> requests
             .requestMatchers(
-                "/",
+                "/**",
                 "/auth",
                 "/register",
                 "/css/**",
