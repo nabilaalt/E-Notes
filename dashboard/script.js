@@ -15,7 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const upcomingTasksLink = document.getElementById('upcoming-tasks-link');
     const completedTasksLink = document.getElementById('completed-tasks-link');
 
-    let tasks = [];
+    // Function to add a new task
+    // function addTask(taskText) {
+    //     const li = document.createElement('li');
+    //     li.className = 'task-item';
 
     function addTask(taskText) {
         const task = {
