@@ -50,10 +50,10 @@ public class NoteController {
         User loggedUser = (User) session.getAttribute("user");
         if (loggedUser != null) {
             List<Note> notes = noteService.getAllNoteByUserId(loggedUser.getId());
-            model.addAttribute("username", loggedUser.getUsername());
+            model.addAttribute("user", loggedUser);
             model.addAttribute("jumlah", notes.size());
             model.addAttribute("notes", notes);
-            return "home/index";
+            return "notes/index";
         } else {
             return "redirect:/login";
         }

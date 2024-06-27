@@ -30,7 +30,11 @@ public class AuthController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
-    public String showLogin(Model model) {
+    public String showLogin(Model model,HttpSession session) {
+        User loggedUser = (User) session.getAttribute("user");
+        if (loggedUser != null){
+            return "redirect:/tasks";
+        } 
         model.addAttribute("user", new User());
         return "login/signin"; // Nama file HTML Anda
     }

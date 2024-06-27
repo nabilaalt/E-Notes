@@ -1,5 +1,3 @@
-
-
 package com.pbo.enotes.service;
 
 import com.pbo.enotes.entity.Note;
@@ -9,25 +7,28 @@ import com.pbo.enotes.repository.NoteRepository;
 import com.pbo.enotes.repository.TaskRepository;
 import com.pbo.enotes.repository.UserRepository;
 
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    @Lazy
     private NoteRepository noteRepository;
 
     @Autowired
-    @Lazy
     private TaskRepository taskRepository;
 
     // Create or update a user
@@ -65,11 +66,19 @@ public class UserService {
     }
 
     public List<Note> findNotesByUserId(Long userId) {
-        
         return noteRepository.findByUser_Id(userId);
     }
 
     public List<Task> findTasksByUserId(Long userId) {
         return taskRepository.findByUserId(userId);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findUserByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found with email: " + email);
+        }
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 }

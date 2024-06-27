@@ -31,7 +31,8 @@ public class TaskController {
         if (loggedUser != null) {
             List<Task> tasks = loggedUser.getTasks();
             model.addAttribute("tasks", tasks);
-            return "home/index";
+            model.addAttribute("user",loggedUser);
+            return "tasks/index";
         } else {
             return "redirect:/login";
         }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/assets/fontawesome-free-6.5.2-web/css/all.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css"> 
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/dashboard.js" defer></script>
+    <title>Tasks</title> 
+</head>
+<body>
+    <div th:replace="fragments/sidebar :: sidebar"></div>
+
+    <section class="home">
+        <div class="text">Notes</div>
+        <main> 
+            <button type="button" class="btn btn-primary custom-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="fa-solid fa-plus"></i> 
+            </button>
+  
+            <!-- Modal -->
+            <div class="modal fade custom-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <form id="task-form">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" style="text-align: center;" id="exampleModalLabel">TASK LIST</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="inputTitle" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="inputTitle" placeholder="Input title">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputTask" class="form-label">Input Task</label>
+                                    <input type="text" class="form-control" id="inputTask" placeholder="Enter your task description here">
+                                </div> 
+                                <div class="mb-3">
+                                    <label for="inputDate" class="form-label">Deadline</label>
+                                    <input type="date" class="form-control" id="inputDate">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="taskDesc" class="form-label">Description</label>
+                                    <textarea class="form-control" id="taskDesc" rows="4" placeholder="Enter task description here..."></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </section>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<nav class="sidebar close"  th:fragment="sidebar">
+    <header>
+        <i class="fa-solid fa-caret-right toggle"></i>
+    </header>
+
+    <div class="menu-bar">
+        <div class="profile">
+            <div class="profile-details">
+                <img src="profile-picture.jpg" alt="Profile Picture" class="profile-image">
+                <div class="profile-info">
+                    <span class="profile-name" th:text="${user.username}">John Doe</span>
+                </div>
+            </div>
+        </div>
+        <div class="menu">
+            <ul class="menu-links">
+                <li class="nav-link">
+                    <a th:href="@{/notes}" id="notes-link">
+                        <i class="fa-solid fa-note-sticky icon"></i>
+                        <span class="text nav-text">Notes</span>
+                    </a>
+                </li>
+                <li class="nav-link dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-clipboard-list icon"></i>
+                        <span class="text nav-text">Tasks</span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li class="nav-link">
+                            <a href="#" id="all-tasks-link">
+                                <i class='fa-solid fa-list-check icon'></i>
+                                <span class="text nav-text">All</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="#" id="today-tasks-link">
+                                <i class='fa-solid fa-stopwatch icon'></i>
+                                <span class="text nav-text">Today</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="#" id="upcoming-tasks-link">
+                                <i class='fa-solid fa-calendar-days icon'></i>
+                                <span class="text nav-text">Upcoming</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-link">
+                            <a href="#" id="completed-tasks-link">
+                                <i class='fa-solid fa-check-double icon'></i>
+                                <span class="text nav-text">Completed</span>
+                            </a>
+                        </li>
+                    </ul>
+                  </li>
+            </ul>
+        </div>
+
+        <div class="bottom-content">
+            <li>
+                <a th:href="@{/logout}">
+                    <i class="fa-solid fa-right-from-bracket icon"></i>
+                    <span class="text nav-text">Logout</span>
+                </a>
+            </li>
+        </div>
+    </div>
+</nav>
