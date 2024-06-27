@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -19,7 +20,9 @@ public class Task implements Serializable {
 
     private String title;
     private String description;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dueDate;
+
     private boolean completed;
 
     @CreatedDate
@@ -65,6 +68,13 @@ public class Task implements Serializable {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
+
+    public String getDueDateStr(){
+        return dueDate.toString();
+    }
+
+    
+    
 
     public boolean isCompleted() {
         return completed;

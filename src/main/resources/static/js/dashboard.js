@@ -90,14 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTasks();
     }
 
-    taskForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const newTaskText = taskInput.value.trim();
-        if (newTaskText !== '') {
-            addTask(newTaskText);
-            taskInput.value = '';
-        }
-    });
+
 
     allTasksLink.addEventListener('click', () => renderTasks('all'));
     todayTasksLink.addEventListener('click', () => renderTasks('today'));

@@ -12,8 +12,15 @@ import com.pbo.enotes.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import java.util.List;
 import java.util.Optional;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.sql.Date; // Import java.sql.Date untuk tipe data SQL Date
 
 @Controller
 @RequestMapping("/tasks")
@@ -57,12 +64,22 @@ public class TaskController {
 
     @PostMapping
     public String createTask(@RequestParam Long userId, @ModelAttribute Task task) {
-        return userService.getUserById(userId).map(user -> {
+        // Mengambil user berdasarkan userId
+        Optional<User> optionalUser = userService.getUserById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+        
+        
+            // Tambahkan task ke user
             user.getTasks().add(task);
-            userService.saveUser(user);
+            userService.saveUser(user); // Simpan user yang sudah diperbarui
+        
             return "redirect:/tasks";
-        }).orElse("error/404");
+        } else {
+            return "error/404"; // Handle jika user tidak ditemukan
+        }
     }
+
 
     @GetMapping("/{id}/edit")
     public String showUpdateForm(@PathVariable(value = "id") Long taskId, Model model) {
