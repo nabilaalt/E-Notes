@@ -2,7 +2,8 @@ package com.pbo.enotes.repository;
 
 import com.pbo.enotes.entity.Note;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 public interface NoteRepository extends JpaRepository<Note, Long> {
-    // Additional query methods if needed
+    List<Note> findByUser_Id(Long userId);
 }

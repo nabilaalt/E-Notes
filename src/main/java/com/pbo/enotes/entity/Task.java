@@ -28,6 +28,10 @@ public class Task implements Serializable {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     // Getters and Setters
 
     public Long getId() {

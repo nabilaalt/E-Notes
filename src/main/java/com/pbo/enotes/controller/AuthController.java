@@ -1,5 +1,6 @@
 package com.pbo.enotes.controller;
 
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,17 +11,20 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pbo.enotes.entity.User;
-import com.pbo.enotes.repository.UserRepository;
+import com.pbo.enotes.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class AuthController {
 
     @Autowired
-    private UserRepository userRepository;
+    @Lazy
+    private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -32,22 +36,30 @@ public class AuthController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<String> loginUser(@ModelAttribute User user, BindingResult result, HttpSession session) {
-    
+    public ResponseEntity<String> loginUser(@ModelAttribute User user, BindingResult result, HttpSession session, HttpServletRequest request) {
         if (result.hasErrors()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid form data");
         }
     
-        User existingUser = userRepository.findByUsername(user.getUsername());
+        User existingUser = userService.findUserByEmail(user.getEmail());
         if (existingUser != null && passwordEncoder.matches(user.getPassword(), existingUser.getPassword())) {
-            session.setAttribute("user", existingUser);
-            return ResponseEntity.ok("Login successful, redirecting to /dashboard");
+            // Invalidate any existing session
+            session.invalidate();
+        
+            // Create a new session
+            HttpSession newSession = request.getSession(true);
+            newSession.setAttribute("user", existingUser);
+        
+            return ResponseEntity.ok("Login successful!");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid Credentials!");
         }
     }
-    
-    
-    
-    
+
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate(); // Hapus sesi pengguna
+        return "redirect:/login"; // Arahkan ke halaman login
     }
+}

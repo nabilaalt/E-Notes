@@ -11,18 +11,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 
 import com.pbo.enotes.entity.User;
-import com.pbo.enotes.repository.UserRepository;
 
-import jakarta.servlet.http.HttpSession;
+import com.pbo.enotes.service.UserService;
+
 
 @Controller
 public class RegisterController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -40,7 +40,7 @@ public class RegisterController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid form data");
         }
 
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userService.existsByEmail(user.getEmail())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email already exists");
         }
 
@@ -52,14 +52,11 @@ public class RegisterController {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         // Simpan user ke database
-        userRepository.save(user);
+        userService.saveUser(user);
 
         return ResponseEntity.ok("Registration successful");
     }
 
 
-    
-    
-    
-    
-    }
+
+}

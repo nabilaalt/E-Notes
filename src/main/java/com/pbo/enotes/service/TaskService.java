@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.pbo.enotes.ResourceNotFoundException;
+import com.pbo.enotes.entity.Note;
 import com.pbo.enotes.entity.Task;
 import com.pbo.enotes.repository.TaskRepository;
 
@@ -43,6 +44,10 @@ public class TaskService {
     public void deleteTask(Long id) {
         Task task = taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found for this id :: " + id));
         taskRepository.delete(task);
+    }
+
+    public List<Task> getAllNoteByUserId(Long id) {
+        return taskRepository.findByUserId(id);
     }
 
 

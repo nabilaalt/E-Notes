@@ -1,7 +1,7 @@
 package com.pbo.enotes.entity;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -35,11 +35,11 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id") // Foreign key in Note table
-    private Set<Note> notes;
+    private List<Note> notes;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "user_id") // Foreign key in Task table
-    private Set<Task> tasks;
+    private List<Task> tasks;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -96,15 +96,15 @@ public class User {
         this.confirmPassword = confirmPassword;
     }
 
-    public Set<Note> getNotes() {
+    public List<Note> getNotes() {
         return notes;
     }
 
-    public Set<Task> getTasks() {
+    public List<Task> getTasks() {
         return tasks;
     }
 
-    public void setNotes(Set<Note> notes) {
+    public void setNotes(List<Note> notes) {
         this.notes = notes;
     }
 

@@ -5,14 +5,18 @@ import com.pbo.enotes.entity.User;
 import com.pbo.enotes.service.NoteService;
 import com.pbo.enotes.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api/notes")
+@Controller
+@RequestMapping("/notes")
 public class NoteController {
 
     @Autowired
@@ -21,29 +25,66 @@ public class NoteController {
     @Autowired
     private UserService userService;
 
-
-
     @PostMapping
-    public Note createNote(@RequestParam Long userId, @RequestBody Note note) {
+    public String createNote(@RequestParam Long userId, @ModelAttribute Note note) {
         return userService.getUserById(userId).map(user -> {
             user.getNotes().add(note);
             userService.saveUser(user);
-            return note;
-        }).orElseThrow(() -> new RuntimeException("User not found"));
+            return "redirect:/notes";
+        }).orElse("error/404");
     }
 
     @GetMapping("/{id}")
-    public Optional<Note> getNoteById(@PathVariable Long id) {
-        return noteService.getNoteById(id);
+    public String getNoteById(@PathVariable Long id, Model model) {
+        Optional<Note> note = noteService.getNoteById(id);
+        if (note.isPresent()) {
+            model.addAttribute("note", note.get());
+            return "notes/show";
+        } else {
+            return "error/404";
+        }
     }
 
     @GetMapping
-    public List<Note> getAllNotes() {
-        return noteService.getAllNotes();
+    public String index(HttpSession session, Model model) {
+        User loggedUser = (User) session.getAttribute("user");
+        if (loggedUser != null) {
+            List<Note> notes = noteService.getAllNoteByUserId(loggedUser.getId());
+            model.addAttribute("username", loggedUser.getUsername());
+            model.addAttribute("jumlah", notes.size());
+            model.addAttribute("notes", notes);
+            return "home/index";
+        } else {
+            return "redirect:/login";
+        }
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteNoteById(@PathVariable Long id) {
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("note", new Note());
+        return "notes/new";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showUpdateForm(@PathVariable Long id, Model model) {
+        Optional<Note> note = noteService.getNoteById(id);
+        if (note.isPresent()) {
+            model.addAttribute("note", note.get());
+            return "notes/edit";
+        } else {
+            return "error/404";
+        }
+    }
+
+    @PostMapping("/{id}")
+    public String updateNote(@PathVariable Long id, @ModelAttribute Note noteDetails) {
+        noteService.updateNoteById(id, noteDetails);
+        return "redirect:/notes";
+    }
+
+    @PostMapping("/{id}/delete")
+    public String deleteNoteById(@PathVariable Long id) {
         noteService.deleteNoteById(id);
+        return "redirect:/notes";
     }
 }

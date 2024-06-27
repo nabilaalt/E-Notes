@@ -45,7 +45,7 @@
         </div>
         <div class="signin-links">
             <span class="signup">Already have an account?
-                <a href="@{/login}">Sign In</a>
+                <a href="/">Sign In</a>
             </span>
         </div>
         <input type="submit" value="Sign Up">
@@ -84,7 +84,7 @@
                 console.log(data);
                 showSuccessToast(data, 1); // Asumsi showSuccessToast akan menampilkan toastr
                 setTimeout(() => {
-                    window.location.href = '/login'; // Mengarahkan ke /login setelah delay
+                    window.location.href = '/'; // Mengarahkan ke /login setelah delay
                 }, 3000); // Delay 3 detik (3000 milidetik) atau sesuaikan dengan durasi toastr Anda
             })
             .catch(error => {

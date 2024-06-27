@@ -33,4 +33,12 @@ public class NoteService {
     public void deleteNoteById(Long id) {
         noteRepository.deleteById(id);
     }
+
+    public List<Note> getAllNoteByUserId(Long id) {
+        return noteRepository.findByUser_Id(id);
+    }
+
+    public void updateNoteById(Long id, Note noteDetails) {
+        
+    }
 }

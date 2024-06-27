@@ -2,8 +2,14 @@
 
 package com.pbo.enotes.service;
 
+import com.pbo.enotes.entity.Note;
+import com.pbo.enotes.entity.Task;
 import com.pbo.enotes.entity.User;
+import com.pbo.enotes.repository.NoteRepository;
+import com.pbo.enotes.repository.TaskRepository;
 import com.pbo.enotes.repository.UserRepository;
+
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +21,14 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    @Lazy
+    private NoteRepository noteRepository;
+
+    @Autowired
+    @Lazy
+    private TaskRepository taskRepository;
 
     // Create or update a user
     public User saveUser(User user) {
@@ -44,5 +58,18 @@ public class UserService {
     // Check if email exists
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+    public List<Note> findNotesByUserId(Long userId) {
+        
+        return noteRepository.findByUser_Id(userId);
+    }
+
+    public List<Task> findTasksByUserId(Long userId) {
+        return taskRepository.findByUserId(userId);
     }
 }
