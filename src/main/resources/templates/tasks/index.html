@@ -22,42 +22,154 @@
     <section class="home">
         <div class="text">Tasks</div>
         <main> 
-            <button type="button" class="btn btn-primary custom-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="fa-solid fa-plus"></i> 
-            </button>
-  
-            <!-- Modal -->
-            <div class="modal fade custom-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <form id="task-form" th:action="@{/tasks}" method="post">
-                    <input type="hidden" th:value="${user.id}" name="userId"/>
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" style="text-align: center;" id="exampleModalLabel">ADD TASK</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  <!-- Modal -->
+                                  <div class="modal fade custom-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <form id="task-form" th:action="@{/tasks}" method="post">
+                                        <input type="hidden" th:value="${user.id}" name="userId"/>
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" style="text-align: center;" id="exampleModalLabel">ADD TASK</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="mb-3">
+                                                        <label for="inputTitle" class="form-label">Title</label>
+                                                        <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Enter title">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="taskDesc" class="form-label">Description</label>
+                                                        <textarea class="form-control" id="taskDesc" name="description" rows="4" placeholder="Enter task description"></textarea>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label for="inputDate" class="form-label">Deadline</label>
+                                                        <input type="date" class="form-control" id="dueDate" name="dueDate">
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Save Task</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                    
+                                <!-- modal2 -->
+                                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel">title tasks</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="mb-3">
+                                                <p>Deskripsi task Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, nisi nulla ut repellat ab animi. Vitae ab repellendus minus sunt dolore quis dolor iure laborum vero doloribus consequuntur, similique pariatur!</p>
+                                                <hr class="my-4">
+                                                <p>Date : </p>
+                                                <span class="badge text-bg-success">Completed</span>
+                                                <span class="badge text-bg-danger">Uncompleted</span>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-primary">Edit</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+
+            <a href="#" style="text-decoration: none;">
+                <div class="container text-center">
+                    <div class="row">
+                      <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-body" data-bs-toggle= "modal" data-bs-target="#exampleModal2">
+                              <h5 class="card-title">title task</h5>
+                              <hr class="my-4">
+                              <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
                             </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="inputTitle" class="form-label">Title</label>
-                                    <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Enter title">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="taskDesc" class="form-label">Description</label>
-                                    <textarea class="form-control" id="taskDesc" name="description" rows="4" placeholder="Enter task description"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="inputDate" class="form-label">Deadline</label>
-                                    <input type="date" class="form-control" id="dueDate" name="dueDate">
-                                </div>
+                          </div>
+                      </div>
+                      <div class="col">
+                        <div class="card shadow-sm">
+                            <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                              <h5 class="card-title">title task</h5>
+                              <hr class="my-4">
+                              <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
                             </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Save Task</button>
+                          </div>
+                      </div>
+                      <div class="col">
+                        <div class="card">
+                            <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                              <h5 class="card-title">title task</h5>
+                              <hr class="my-4">
+                              <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                          <div class="card">
+                              <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                <h5 class="card-title">title task</h5>
+                                <hr class="my-4">
+                                <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                          <div class="card">
+                              <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                <h5 class="card-title">title task</h5>
+                                <hr class="my-4">
+                                <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                          <div class="card">
+                              <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                <h5 class="card-title">title task</h5>
+                                <hr class="my-4">
+                                <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
+                              </div>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
-            
+                    <div class="row">
+                        <div class="col">
+                          <div class="card">
+                              <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                <h5 class="card-title">title task</h5>
+                                <hr class="my-4">
+                                <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                          <div class="card">
+                              <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                <h5 class="card-title">title task</h5>
+                                <hr class="my-4">
+                                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam ullam iusto iure aspernatur! Amet aut nam tenetur, nemo perferendis dolore distinctio deleniti harum libero corporis velit ut, ea, ducimus quod?</p>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                          <div class="card-empty">
+                              <div class="card-body">
+                              <button type="button" class="btn btn-primary custom-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                          <i class="fa-solid fa-plus"></i> 
+                      </button>
+                              </div>
+                            </div>
+                      </div>
+                      </div>
+                </div>
+            </a>
+
         </main>
     </section>
 
