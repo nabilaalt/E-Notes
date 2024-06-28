@@ -50,6 +50,12 @@ public class TaskService {
         return taskRepository.findByUserId(id);
     }
 
+    public Task completeTask(Long taskId) {
+        Task task = taskRepository.findById(taskId).orElseThrow(() -> new ResourceNotFoundException("Task not found for this id :: " + taskId));
+        task.setCompleted(true);
+        return taskRepository.save(task);
+    }
+
 
 }
 

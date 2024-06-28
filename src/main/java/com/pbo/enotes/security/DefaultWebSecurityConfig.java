@@ -37,7 +37,7 @@ public class DefaultWebSecurityConfig {
                     "/build/**",
                     "/jquery/**",
                     "/login",
-                    "/tasks/",
+                    "/tasks/**",
                     "/static/**"
                 ).permitAll()
                 .anyRequest().authenticated()

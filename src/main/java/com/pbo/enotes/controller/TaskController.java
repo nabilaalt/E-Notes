@@ -1,6 +1,8 @@
 package com.pbo.enotes.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,9 @@ import java.util.Optional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.sql.Date; // Import java.sql.Date untuk tipe data SQL Date
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @Controller
 @RequestMapping("/tasks")
@@ -36,9 +41,21 @@ public class TaskController {
     public String index(HttpSession session, Model model) {
         User loggedUser = (User) session.getAttribute("user");
         if (loggedUser != null) {
-            List<Task> tasks = loggedUser.getTasks();
-            model.addAttribute("tasks", tasks);
-            model.addAttribute("user",loggedUser);
+            List<Task> tasks = taskService.getAllNoteByUserId(loggedUser.getId());
+
+            // Menghitung ukuran dari array 2D yang dibutuhkan
+            int outerSize = (tasks.size() + 2) / 3; // Menambah 2 agar pembagian selalu ke atas untuk kasus tidak habis
+                                                    // dibagi 3
+            Task[][] taskArray2D = new Task[outerSize][3];
+
+            // Mengisi array 2D dengan task
+            for (int i = 0; i < tasks.size(); i++) {
+                taskArray2D[i / 3][i % 3] = tasks.get(i);
+            }
+
+            model.addAttribute("tasks", taskArray2D);
+            model.addAttribute("user", loggedUser);
+
             return "tasks/index";
         } else {
             return "redirect:/login";
@@ -46,13 +63,13 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    public String getTaskById(@PathVariable(value = "id") Long taskId, Model model) {
+    @ResponseBody
+    public ResponseEntity<?> getTaskById(@PathVariable(value = "id") Long taskId) {
         Optional<Task> task = taskService.getTaskById(taskId);
         if (task.isPresent()) {
-            model.addAttribute("task", task.get());
-            return "tasks/show";
+            return ResponseEntity.ok(task.get());
         } else {
-            return "error/404";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found");
         }
     }
 
@@ -68,18 +85,16 @@ public class TaskController {
         Optional<User> optionalUser = userService.getUserById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-        
-        
+
             // Tambahkan task ke user
             user.getTasks().add(task);
             userService.saveUser(user); // Simpan user yang sudah diperbarui
-        
+
             return "redirect:/tasks";
         } else {
             return "error/404"; // Handle jika user tidak ditemukan
         }
     }
-
 
     @GetMapping("/{id}/edit")
     public String showUpdateForm(@PathVariable(value = "id") Long taskId, Model model) {
@@ -92,7 +107,7 @@ public class TaskController {
         }
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/edit")
     public String updateTask(@PathVariable(value = "id") Long taskId, @ModelAttribute Task taskDetails) {
         taskService.updateTask(taskId, taskDetails);
         return "redirect:/tasks";
@@ -103,4 +118,12 @@ public class TaskController {
         taskService.deleteTask(taskId);
         return "redirect:/tasks";
     }
+
+    @PostMapping("/{id}/complete")
+    public String CompleteTask(@PathVariable(value = "id") Long taskId) {
+        taskService.completeTask(taskId);
+        
+        return "redirect:/tasks";
+    }
+    
 }

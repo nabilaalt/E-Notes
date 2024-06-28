@@ -6,7 +6,7 @@
     <div class="menu-bar">
         <div class="profile">
             <div class="profile-details">
-                <img src="profile-picture.jpg" alt="Profile Picture" class="profile-image">
+                <img src="/img/9720009.jpg" alt="Profile Picture" class="profile-image">
                 <div class="profile-info">
                     <span class="profile-name" th:text="${user.username}">John Doe</span>
                 </div>
@@ -27,7 +27,7 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li class="nav-link">
-                            <a href="#" id="all-tasks-link">
+                            <a th:href="@{/tasks}" id="all-tasks-link">
                                 <i class='fa-solid fa-list-check icon'></i>
                                 <span class="text nav-text">All</span>
                             </a>

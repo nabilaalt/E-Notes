@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link rel="stylesheet" href="/css/dashboard.css">
     <link rel="stylesheet" href="/assets/fontawesome-free-6.5.2-web/css/all.min.css">
-    <link rel="stylesheet" href="/css/bootstrap.min.css"> 
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/dashboard.js" defer></script>
     <link rel="stylesheet" href="/css/toastr.min.css" />
@@ -14,192 +17,282 @@
 
     <script src="/js/jquery-3.7.1.min.js"></script>
     <script src="/js/toastr.min.js"></script>
-    <title>Tasks</title> 
+    <title>Tasks</title>
 </head>
+
 <body>
     <div th:replace="fragments/sidebar :: sidebar"></div>
 
     <section class="home">
         <div class="text">Tasks</div>
-        <main> 
-                                  <!-- Modal -->
-                                  <div class="modal fade custom-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <form id="task-form" th:action="@{/tasks}" method="post">
-                                        <input type="hidden" th:value="${user.id}" name="userId"/>
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" style="text-align: center;" id="exampleModalLabel">ADD TASK</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="mb-3">
-                                                        <label for="inputTitle" class="form-label">Title</label>
-                                                        <input type="text" class="form-control" id="inputTitle" name="title" placeholder="Enter title">
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="taskDesc" class="form-label">Description</label>
-                                                        <textarea class="form-control" id="taskDesc" name="description" rows="4" placeholder="Enter task description"></textarea>
-                                                    </div>
-                                                    <div class="mb-3">
-                                                        <label for="inputDate" class="form-label">Deadline</label>
-                                                        <input type="date" class="form-control" id="dueDate" name="dueDate">
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="submit" class="btn btn-primary">Save Task</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
+        <main>
+            <!-- Modal for Adding Task -->
+            <div class="modal fade custom-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <form id="task-form" th:action="@{/tasks}" method="post">
+                    <input type="hidden" th:value="${user.id}" name="userId" />
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" style="text-align: center;" id="exampleModalLabel">ADD TASK
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="inputTitle" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="inputTitle" name="title"
+                                        placeholder="Enter title">
                                 </div>
-                    
-                                <!-- modal2 -->
-                                <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h1 class="modal-title fs-5" id="exampleModalLabel">title tasks</h1>
-                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="mb-3">
-                                                <p>Deskripsi task Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, nisi nulla ut repellat ab animi. Vitae ab repellendus minus sunt dolore quis dolor iure laborum vero doloribus consequuntur, similique pariatur!</p>
-                                                <hr class="my-4">
-                                                <p>Date : </p>
-                                                <span class="badge text-bg-success">Completed</span>
-                                                <span class="badge text-bg-danger">Uncompleted</span>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                          <button type="button" class="btn btn-primary">Edit</button>
-                                        </div>
-                                      </div>
-                                    </div>
+                                <div class="mb-3">
+                                    <label for="taskDesc" class="form-label">Description</label>
+                                    <textarea class="form-control" id="taskDesc" name="description" rows="4"
+                                        placeholder="Enter task description"></textarea>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="inputDate" class="form-label">Deadline</label>
+                                    <input type="date" class="form-control" id="dueDate" name="dueDate">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save Task</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
-            <a href="#" style="text-decoration: none;">
-                <div class="container text-center">
-                    <div class="row">
-                      <div class="col">
-                        <div class="card shadow-sm">
-                            <div class="card-body" data-bs-toggle= "modal" data-bs-target="#exampleModal2">
-                              <h5 class="card-title">title task</h5>
-                              <hr class="my-4">
-                              <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
+            <!-- Modal for Edit Task -->
+            <div class="modal fade custom-modal" id="EditModal" tabindex="-1" aria-labelledby="EditModalLabel"
+                aria-hidden="true">
+                <form id="edit-task-form" method="post">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" style="text-align: center;" id="exampleModalLabel">EDIT
+                                    TASK</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
                             </div>
-                          </div>
-                      </div>
-                      <div class="col">
-                        <div class="card shadow-sm">
-                            <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                              <h5 class="card-title">title task</h5>
-                              <hr class="my-4">
-                              <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="inputTitle" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="inputTitle" name="title"
+                                        placeholder="Enter title">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="taskDesc" class="form-label">Description</label>
+                                    <textarea class="form-control" id="taskDesc" name="description" rows="4"
+                                        placeholder="Enter task description"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputDate" class="form-label">Deadline</label>
+                                    <input type="date" class="form-control" id="dueDate" name="dueDate">
+                                </div>
                             </div>
-                          </div>
-                      </div>
-                      <div class="col">
-                        <div class="card">
-                            <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                              <h5 class="card-title">title task</h5>
-                              <hr class="my-4">
-                              <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
-                            </div>
-                          </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                          <div class="card">
-                              <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                                <h5 class="card-title">title task</h5>
-                                <hr class="my-4">
-                                <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                          <div class="card">
-                              <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                                <h5 class="card-title">title task</h5>
-                                <hr class="my-4">
-                                <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                          <div class="card">
-                              <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                                <h5 class="card-title">title task</h5>
-                                <hr class="my-4">
-                                <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
-                              </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save Task</button>
+
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col">
-                          <div class="card">
-                              <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                                <h5 class="card-title">title task</h5>
+                </form>
+            </div>
+
+
+            <!-- Modal for Viewing Task Details -->
+            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Task Details</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <p id="taskDescription">Deskripsi task</p>
                                 <hr class="my-4">
-                                <p> ini adalah deskripsi tugas nya yah gsssssssssssssssss</p>
-                              </div>
+                                <p>Due Date: <span id="taskDate"></span></p>
+                                <span id="taskStatus" class="badge"></span>
                             </div>
                         </div>
-                        <div class="col">
-                          <div class="card">
-                              <div class="card-body" data-bs-toggle="modal" data-bs-target="#exampleModal2">
-                                <h5 class="card-title">title task</h5>
-                                <hr class="my-4">
-                                <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam ullam iusto iure aspernatur! Amet aut nam tenetur, nemo perferendis dolore distinctio deleniti harum libero corporis velit ut, ea, ducimus quod?</p>
-                              </div>
-                            </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline-danger">Delete</button>
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                data-bs-target="#EditModal" data-bs-task-id="1" onclick="viewTaskDetailsOnEdit(this)">
+                                Edit Task
+                            </button>
+                            <form id="completeForm" method="post">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <button class="btn btn-success" type="submit">Complete</button>
+                            </form>
+
+
                         </div>
-                        <div class="col">
-                          <div class="card-empty">
-                              <div class="card-body">
-                              <button type="button" class="btn btn-primary custom-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                          <i class="fa-solid fa-plus"></i> 
-                      </button>
-                              </div>
-                            </div>
-                      </div>
-                      </div>
+                    </div>
                 </div>
-            </a>
+            </div>
 
+            <!-- Tasks Cards -->
+            <div class="container text-center">
+                <!-- Iterasi baris (row) -->
+                <div th:each="taskRow : ${tasks}">
+                    <div class="row">
+                        <!-- Iterasi kolom (col) di dalam baris -->
+                        <div class="col" th:each="task : ${taskRow}">
+                            <div class="card shadow-sm" th:if="${task != null}">
+                                <div class="card-body" th:data-task-id="${task.id}" onclick="viewTaskDetails(this)">
+                                    <h5 class="card-title" th:text="${task.title}">title task</h5>
+                                    <hr class="my-4">
+                                    <p th:text="${task.description}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card-empty">
+                        <div class="card-body">
+                            <button type="button" class="btn btn-primary custom-button" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </section>
 
     <script>
-        $(document).ready(function() {
-            $('#task-form').on('submit', function(event) {
+        $(document).ready(function () {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            $(document).ajaxSend(function (e, xhr, options) {
+                xhr.setRequestHeader(header, token);
+            });
+            $('#task-form').on('submit', function (event) {
                 event.preventDefault(); // Prevent default form submission
-                
+
                 var formData = $(this).serialize(); // Serialize form data
-                
+
                 $.ajax({
-                    url: $(this).attr('th:action'),
+                    url: $(this).attr('action'),
                     type: 'POST',
                     data: formData,
-                    success: function(response) {
-                        // Display toastr notification
+                    success: function (response) {
                         toastr.success('Task successfully created!');
-                        
-                        // Close modal
                         $('#exampleModal').modal('hide');
-                        
-                        // Clear form fields
                         $('#task-form')[0].reset();
                     },
-                    error: function() {
+                    error: function () {
                         toastr.error('Failed to create task.');
                     }
                 });
             });
+
+            $('#edit-task-form').on('submit', function (event) {
+                event.preventDefault(); // Prevent default form submission
+
+                var formData = $(this).serialize(); // Serialize form data
+                console.log($(this).attr('action'));
+
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        toastr.success('Task successfully updated!');
+                        $('#EditModal').modal('hide');
+                        $('#edit-task-form')[0].reset();
+                    },
+                    error: function (response) {
+                        toastr.error('Failed to update task.');
+                        console.log(response)
+                    }
+                });
+            });
+
+            $('#completeForm').on('submit', function (event) {
+                event.preventDefault(); // Prevent default form submission
+                $.ajax({
+                    url: '/tasks/' + taskId + '/complete',
+                    type: 'POST',
+                    success: function (response) {
+                        toastr.success('Task Completed!');
+                        $('#exampleModal2').modal('hide');
+                        console.log(response);
+                    },
+                    error: function (response) {
+                        toastr.error('Failed to update task.');
+                        console.log(response)
+                    }
+                });
+            });
+
+
         });
+
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        var taskId;
+        function viewTaskDetails(element) {
+            taskId = $(element).attr('data-task-id');
+
+            $.ajax({
+                url: '/tasks/' + taskId,
+                type: 'GET',
+                success: function (response) {
+                    $('#exampleModal2 .modal-title').text(response.title);
+                    $('#taskDescription').text(response.description);
+                    $('#taskDate').text(response.dueDate ? formatDate(response.dueDate) : "No due date");
+                    $('#taskStatus').text(response.completed ? 'Completed' : 'Uncompleted')
+                        .toggleClass('text-bg-success', response.completed)
+                        .toggleClass('text-bg-danger', !response.completed);
+
+                    $('#exampleModal2').modal('show');
+                },
+                error: function (response) {
+                    toastr.error('Failed to load task details.');
+                    console.log(response);
+                }
+            });
+        }
+
+        function viewTaskDetailsOnEdit(element) {
+
+            $.ajax({
+                url: '/tasks/' + taskId,
+                type: 'GET',
+                success: function (response) {
+                    $('#EditModal form').attr('action', '/tasks/' + taskId + '/edit');
+                    $('#EditModal #inputTitle').val(response.title);
+                    $('#EditModal #taskDesc').val(response.description);
+                    $('#EditModal #inputDate').val(response.dueDate);
+
+                    $('#EditModal').modal('show');
+                },
+                error: function (response) {
+                    toastr.error('Failed to load task details.');
+                    console.log(response);
+                }
+            });
+        }
+
+
+
+
+
+
+
     </script>
 </body>
+
 </html>
