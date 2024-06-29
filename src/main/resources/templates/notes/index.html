@@ -1,189 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/dashboard.css">
-    <link rel="stylesheet" href="/assets/fontawesome-free-6.5.2-web/css/all.min.css">
-    <link rel="stylesheet" href="/css/bootstrap.min.css"> 
-    <script src="/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/dashboard.js" defer></script>
-    <link rel="stylesheet" href="/assets/ckeditor5/ckeditor5.css" />
-    <title>Tasks</title> 
-    <style>
-      .card {
-        max-width: 500px;
-        max-height: 200px;
-        border: 1px solid #e0dfdf;
-        border-radius: 8px;
-        overflow: hidden;
-        margin-bottom: 15px;
-      }
-
-      .card-empty {
-        width: 500px;
-        height: 200px;
-        border: 1px solid #e0dfdf;
-        border-radius: 8px;
-        background-color: #fff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-      }
-
-      .custom-button {
-        background-color: #ffffff !important;
-        border: none !important;
-        padding: 50px 20px !important;
-        border-radius: 5px !important;
-        font-size: 50px !important;
-        color: #c9bdbd !important;
-        cursor: pointer !important;
-      }
-
-      .custom-button i {
-        margin: 290px;
-      }
-
-      .row {
-        margin: 5%;
-      }
-
-      .card-note {
-        max-width: auto;
-        max-height: 200px;
-        overflow: hidden;
-      }
-
-      .cardempty-note {
-        width: 500px;
-        height: 200px;
-        border: 1px solid #e0dfdf;
-        border-radius: 8px;
-        background-color: #ffffff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        margin-bottom: 15px;
-      }
-
-      .custom-button-note {
-        background-color: #dfdcdc !important;
-        border: none !important;
-        padding: 50px 40px !important;
-        border-radius: 5px !important;
-        font-size: 50px !important;
-        color: #ffffff !important;
-        cursor: pointer !important;
-        margin-left: 12px;
-      }
-
-      .card-body {
-        padding: 10px;
-        text-align: center;
-      }
-
-      .card-title {
-        margin-bottom: 10px;
-        font-size: 1.25rem;
-      }
-
-      .card-text {
-        font-size: 1rem;
-        color: #6c757d;
-      }
-
-      blockquote {
-        margin: 0;
-      }
-
-
-    </style>
-  </head>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="_csrf" th:content="${_csrf.token}" />
+        <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+        <link rel="stylesheet" href="/css/dashboard.css">
+        <link rel="stylesheet" href="/assets/fontawesome-free-6.5.2-web/css/all.min.css">
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/toastr.min.css" />
+        <link rel="stylesheet" href="/css/toastr.css" />
+        <link rel="stylesheet" href="/assets/ckeditor5/ckeditor5.css">
+        <link rel="stylesheet" href="/assets/ckeditor5/">
+        
+        <script src="/js/bootstrap.bundle.min.js"></script>
+        <script src="/js/dashboard.js" defer></script>
+        <script src="/js/jquery-3.7.1.min.js"></script>
+        <script src="/js/toastr.min.js"></script>
+        <title>Tasks</title>
+    </head>
   <body>
     <div th:replace="fragments/sidebar :: sidebar"></div>
-    <div class="container mt-5 container">
-      <div class="row">
-        <div class="col">
-          <div class="card">
-            <div class="card-body" data-bs-toggle="modal" data-bs-target="#displayModal">
-              <h5 class="card-title">Title of the Note</h5>
-              <hr>
-              <p class="card-text"> 
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non nesciunt debitis vitae nisi natus voluptates illum cumque obcaecati magnam quod enim aperiam placeat amet rerum facilis pariatur tempora, quaerat libero nulla quam architecto modi eligendi.
-              </p>
+    <section class="home">
+        <div class="text">Notes</div>
+        <div class="container mt-5 container">
+          <div class="row">
+            <div class="col">
+              <div class="card">
+                <div class="card-body" data-bs-toggle="modal" data-bs-target="#displayModal">
+                  <h5 class="card-title">Title of the Note</h5>
+                  <hr>
+                  <p class="card-text"> 
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Non nesciunt debitis vitae nisi natus voluptates illum cumque obcaecati magnam quod enim aperiam placeat amet rerum facilis pariatur tempora, quaerat libero nulla quam architecto modi eligendi.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="cardempty-note">
+                <div class="card-body">
+                  <button type="button" class="btn btn-primary custom-button-note" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="fa-solid fa-plus"></i> 
+                  </button>
+                </div>
+                <blockquote class="blockquote mb-0">
+                  <p style="padding: 50px; color: #6c757d;">Create your own note here</p>
+                </blockquote>
+              </div>
             </div>
           </div>
         </div>
-        <div class="col">
-          <div class="cardempty-note">
-            <div class="card-body">
-              <button type="button" class="btn btn-primary custom-button-note" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="fa-solid fa-plus"></i> 
-              </button>
+        <!-- Modal ADD NOTE-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">NOTES</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="title-note" class="col-form-label">Title:</label>
+                    <input type="text" class="form-control" id="title-note">
+                  </div>
+                  <div class="mb-3">
+                    <textarea name="editor" id="editor"></textarea>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Save Note</button>
+              </div>
             </div>
-            <blockquote class="blockquote mb-0">
-              <p style="padding: 50px; color: #6c757d;">Create your own note here</p>
-            </blockquote>
           </div>
         </div>
-      </div>
-    </div>
+        <!-- Modal DISPLAY NOTE-->
+        <div class="modal fade" id="displayModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title fs-5" id="exampleModalLabel">Title here</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="mb-3">
+                     <p style="color: #6c757d;"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci ipsa quod magni, eius ipsum perferendis, doloribus placeat temporibus odit commodi expedita! At iste accusamus neque saepe perferendis eaque odio a, et aperiam. Quidem ea, eum cumque minus a assumenda laborum minima rerum autem, labore porro ullam nesciunt, ad inventore nihil.
+                    </p>
+                   
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger">Delete</button>
+                <button type="button" class="btn btn-outline-primary">Edit</button>
+                <button type="button" class="btn btn-success">Save Changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
 
-    <!-- Modal ADD NOTE-->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">NOTES</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                <label for="title-note" class="col-form-label">Title:</label>
-                <input type="text" class="form-control" id="title-note">
-              </div>
-              <div class="mb-3">
-                <textarea name="editor" id="editor"></textarea>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Save Note</button>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- Modal DISPLAY NOTE-->
-    <div class="modal fade" id="displayModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title fs-5" id="exampleModalLabel">Title here</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form>
-              <div class="mb-3">
-                 <p style="color: #6c757d;"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci ipsa quod magni, eius ipsum perferendis, doloribus placeat temporibus odit commodi expedita! At iste accusamus neque saepe perferendis eaque odio a, et aperiam. Quidem ea, eum cumque minus a assumenda laborum minima rerum autem, labore porro ullam nesciunt, ad inventore nihil.
-                </p>
-               
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-danger">Delete</button>
-            <button type="button" class="btn btn-outline-primary">Edit</button>
-            <button type="button" class="btn btn-success">Save Changes</button>
-          </div>
-        </div>
-      </div>
-    </div>
 
 
     <script type="importmap">
