@@ -402,16 +402,17 @@ ol, ul {
     overflow: hidden;
 }
 
+
 .card-empty {
-    width: 320px;  /* Set the width of the card */
-    height: 200px; /* Set the height of the card */
-    border: 1px solid #e0dfdf; /* Border for visual reference */
-    border-radius: 8px; /* Rounded corners */
-    background-color: #fff; /* White background */
-    display: flex; /* Flexbox layout */
-    align-items: center; /* Center content vertically */
-    justify-content: center; /* Center content horizontally */
-    overflow: hidden; /* Handle content overflow */
+    width: 320px;  
+    height: 200px; 
+    border: 1px solid #e0dfdf; 
+    border-radius: 8px; 
+    background-color: #fff; 
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+    overflow: hidden; 
 }
 
 .custom-button {
@@ -432,7 +433,7 @@ ol, ul {
     margin: 15px;
 }
 
-.card-note {
+.card{
     max-width: auto;
     max-height:200px;
     overflow: hidden;
@@ -459,3 +460,25 @@ ol, ul {
     cursor: pointer!important; 
     margin-left: 12px;
 }
+
+.card-note {
+    width: 500px;  
+    height: 200px; 
+    border: 1px solid #e0dfdf; 
+    border-radius: 8px; 
+    background-color: #ffffff; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    overflow: hidden; 
+}
+
+.card-text, .card-title{
+    margin: 15px;
+    color: #707070;
+}
+.card-text {
+    padding-bottom: 15px;
+}
+
+
