@@ -23,13 +23,19 @@ import java.util.Optional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.sql.Date; // Import java.sql.Date untuk tipe data SQL Date
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import java.util.Comparator;
 
 
 @Controller
 @RequestMapping("/tasks")
 public class TaskController {
+
+    Comparator<Task> statusComparator = new Comparator<Task>() {
+            @Override
+            public int compare(Task task1, Task task2) {
+                return Boolean.compare(task1.isCompleted(), task2.isCompleted());
+            }
+        };
 
     @Autowired
     private TaskService taskService;
@@ -41,7 +47,8 @@ public class TaskController {
     public String index(HttpSession session, Model model) {
         User loggedUser = (User) session.getAttribute("user");
         if (loggedUser != null) {
-            List<Task> tasks = taskService.getAllNoteByUserId(loggedUser.getId());
+            List<Task> tasks = taskService.getAllTaskByUserId(loggedUser.getId());
+            tasks.sort(statusComparator);
 
             // Menghitung ukuran dari array 2D yang dibutuhkan
             int outerSize = (tasks.size() + 2) / 3; // Menambah 2 agar pembagian selalu ke atas untuk kasus tidak habis
@@ -55,6 +62,9 @@ public class TaskController {
 
             model.addAttribute("tasks", taskArray2D);
             model.addAttribute("user", loggedUser);
+            model.addAttribute("title", "All Tasks");
+            model.addAttribute("showButton", true);
+            model.addAttribute("jumlah", tasks.isEmpty());
 
             return "tasks/index";
         } else {
@@ -63,7 +73,6 @@ public class TaskController {
     }
 
     @GetMapping("/{id}")
-    @ResponseBody
     public ResponseEntity<?> getTaskById(@PathVariable(value = "id") Long taskId) {
         Optional<Task> task = taskService.getTaskById(taskId);
         if (task.isPresent()) {
@@ -71,6 +80,90 @@ public class TaskController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found");
         }
+    }
+
+    @GetMapping("/completed")
+    public String getCompletedTask(HttpSession session, Model model) {
+        User loggedUser = (User) session.getAttribute("user");
+        if (loggedUser != null) {
+            List<Task> tasks = taskService.getCompletedTasks(loggedUser.getId());
+
+            // Menghitung ukuran dari array 2D yang dibutuhkan
+            int outerSize = (tasks.size() + 2) / 3; // Menambah 2 agar pembagian selalu ke atas untuk kasus tidak habis
+                                                    // dibagi 3
+            Task[][] taskArray2D = new Task[outerSize][3];
+
+            // Mengisi array 2D dengan task
+            for (int i = 0; i < tasks.size(); i++) {
+                taskArray2D[i / 3][i % 3] = tasks.get(i);
+            }
+
+            model.addAttribute("tasks", taskArray2D);
+            model.addAttribute("user", loggedUser);
+            model.addAttribute("title", "Completed Tasks");
+            model.addAttribute("jumlah", tasks.isEmpty());
+
+            return "tasks/index";
+        } else {
+            return "redirect:/login";
+        }
+
+    }
+
+    @GetMapping("/upcoming")
+    public String getUpcomingTask(HttpSession session, Model model) {
+        User loggedUser = (User) session.getAttribute("user");
+        if (loggedUser != null) {
+            List<Task> tasks = taskService.getUpcomingTask(loggedUser.getId());
+
+            // Menghitung ukuran dari array 2D yang dibutuhkan
+            int outerSize = (tasks.size() + 2) / 3; // Menambah 2 agar pembagian selalu ke atas untuk kasus tidak habis
+                                                    // dibagi 3
+            Task[][] taskArray2D = new Task[outerSize][3];
+
+            // Mengisi array 2D dengan task
+            for (int i = 0; i < tasks.size(); i++) {
+                taskArray2D[i / 3][i % 3] = tasks.get(i);
+            }
+
+            model.addAttribute("tasks", taskArray2D);
+            model.addAttribute("user", loggedUser);
+            model.addAttribute("title", "Upcoming Tasks");
+            model.addAttribute("jumlah", tasks.isEmpty());
+
+            return "tasks/index";
+        } else {
+            return "redirect:/login";
+        }
+
+    }
+
+    @GetMapping("/today")
+    public String getTodayTask(HttpSession session, Model model) {
+        User loggedUser = (User) session.getAttribute("user");
+        if (loggedUser != null) {
+            List<Task> tasks = taskService.getTodayTask(loggedUser.getId());
+
+            // Menghitung ukuran dari array 2D yang dibutuhkan
+            int outerSize = (tasks.size() + 2) / 3; // Menambah 2 agar pembagian selalu ke atas untuk kasus tidak habis
+                                                    // dibagi 3
+            Task[][] taskArray2D = new Task[outerSize][3];
+
+            // Mengisi array 2D dengan task
+            for (int i = 0; i < tasks.size(); i++) {
+                taskArray2D[i / 3][i % 3] = tasks.get(i);
+            }
+
+            model.addAttribute("tasks", taskArray2D);
+            model.addAttribute("user", loggedUser);
+            model.addAttribute("title", "Today Tasks");
+            model.addAttribute("jumlah", tasks.isEmpty());
+
+            return "tasks/index";
+        } else {
+            return "redirect:/login";
+        }
+
     }
 
     @GetMapping("/new")

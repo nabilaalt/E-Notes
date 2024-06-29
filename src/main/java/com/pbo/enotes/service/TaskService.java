@@ -8,6 +8,7 @@ import com.pbo.enotes.entity.Note;
 import com.pbo.enotes.entity.Task;
 import com.pbo.enotes.repository.TaskRepository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +47,7 @@ public class TaskService {
         taskRepository.delete(task);
     }
 
-    public List<Task> getAllNoteByUserId(Long id) {
+    public List<Task> getAllTaskByUserId(Long id) {
         return taskRepository.findByUserId(id);
     }
 
@@ -55,6 +56,26 @@ public class TaskService {
         task.setCompleted(true);
         return taskRepository.save(task);
     }
+
+    public List<Task> getCompletedTasks(Long userId){
+        return taskRepository.findByUserIdAndCompleted(userId, true);
+    }
+
+    public List<Task> getUncompletedTask(Long userId){
+        return taskRepository.findByUserIdAndCompleted(userId,false);
+    }
+
+    public List<Task> getTodayTask(Long userId){
+        Date now = new Date();
+        return taskRepository.findByUserIdAndDueDateToday(userId);
+    }
+
+    public List<Task> getUpcomingTask(Long userId){
+        Date now = new Date();
+        return taskRepository.findByUserIdAndDueDateAfter(userId, now);
+    }
+
+
 
 
 }

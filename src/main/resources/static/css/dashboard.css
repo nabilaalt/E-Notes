@@ -18,10 +18,17 @@
     --tran-05: all 0.5s ease;
 }
 
-body {
-    min-height: 100vh;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
     background-color: var(--body-color);
     transition: var(--tran-05);
+    overflow-x: hidden; /* Optional: to prevent horizontal scrolling */
+}
+
+body {
+    min-height: 100vh;
 }
 
 ::selection {
