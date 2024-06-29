@@ -24,6 +24,7 @@
     <div th:replace="fragments/sidebar :: sidebar"></div>
 
     <section class="home">
+        <div class="text" th:text="${title}"></div>
         <main>
             <!-- Modal for Adding Task -->
             <div class="modal fade custom-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -146,12 +147,12 @@
                         <!-- Iterasi kolom (col) di dalam baris -->
                         <div class="col" th:each="task : ${taskRow}">
                             <div th:if="${task != null}"
-                                th:classappend="${task.completed} ? 'border-success' : 'border-danger'"
-                                class="card shadow-sm card-custom">
+                                 th:classappend="${task.completed} ? 'border-success' : 'border-danger'"
+                                 class="card shadow-sm card-custom">
                                 <div class="card-body" th:data-task-id="${task.id}" onclick="viewTaskDetails(this)">
                                     <h5 class="card-title" th:text="${task.title}">title task</h5>
                                     <hr class="my-4">
-                                    <p th:text="${task.excerpt}"></p>
+                                    <p th:text="${task.description}"></p>
                                 </div>
                             </div>
                         </div>
@@ -166,15 +167,15 @@
                     <div class="card-empty">
                         <div class="card-body">
                             <button type="button" class="btn btn-primary custom-button" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
+                                    data-bs-target="#exampleModal">
                                 <i class="fa-solid fa-plus"></i>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
-
-
+            
+            
         </main>
     </section>
 
@@ -203,9 +204,8 @@
                             location.reload(); // Refresh the page after 1 second
                         }, 1000);
                     },
-                    error: function (response) {
+                    error: function () {
                         toastr.error('Failed to create task.');
-                        console.log(response)
                     }
                 });
             });
@@ -281,16 +281,6 @@
             return new Date(dateString).toLocaleDateString(undefined, options);
         }
 
-        function truncateDescription(description, wordLimit) {
-            const words = description.split(' ');
-            if (words.length > wordLimit) {
-                return words.slice(0, wordLimit).join(' ') + '...';
-            } else {
-                return description;
-            }
-        }
-
-
         var taskId;
         function viewTaskDetails(element) {
             taskId = $(element).attr('data-task-id');
@@ -337,10 +327,7 @@
 
 
 
-
-
-
-
     </script>
 </body>
+
 </html>
