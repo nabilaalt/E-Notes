@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <link rel="stylesheet" href="/css/dashboard.css">
     <link rel="stylesheet" href="/assets/fontawesome-free-6.5.2-web/css/all.min.css">
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -24,7 +24,7 @@
     <div th:replace="fragments/sidebar :: sidebar"></div>
 
     <section class="home">
-        <div class="text">Tasks</div>
+        <div class="text" th:text="${title}"></div>
         <main>
             <!-- Modal for Adding Task -->
             <div class="modal fade custom-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -120,7 +120,10 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-outline-danger">Delete</button>
+                            <form id="deleteForm">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <button class="btn btn-outline-danger">Delete</button>
+                            </form>
                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
                                 data-bs-target="#EditModal" data-bs-task-id="1" onclick="viewTaskDetailsOnEdit(this)">
                                 Edit Task
@@ -143,7 +146,9 @@
                     <div class="row">
                         <!-- Iterasi kolom (col) di dalam baris -->
                         <div class="col" th:each="task : ${taskRow}">
-                            <div class="card shadow-sm" th:if="${task != null}">
+                            <div th:if="${task != null}"
+                                 th:classappend="${task.completed} ? 'border-success' : 'border-danger'"
+                                 class="card shadow-sm card-custom">
                                 <div class="card-body" th:data-task-id="${task.id}" onclick="viewTaskDetails(this)">
                                     <h5 class="card-title" th:text="${task.title}">title task</h5>
                                     <hr class="my-4">
@@ -153,17 +158,24 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div th:if="${jumlah}">
+                    <div class="alert alert-info" role="alert">
+                        Tidak ada task yang tersedia.
+                    </div>
+                </div>
+                <div class="col" th:if="${showButton}">
                     <div class="card-empty">
                         <div class="card-body">
                             <button type="button" class="btn btn-primary custom-button" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">
+                                    data-bs-target="#exampleModal">
                                 <i class="fa-solid fa-plus"></i>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            
         </main>
     </section>
 
@@ -188,6 +200,9 @@
                         toastr.success('Task successfully created!');
                         $('#exampleModal').modal('hide');
                         $('#task-form')[0].reset();
+                        setTimeout(function () {
+                            location.reload(); // Refresh the page after 1 second
+                        }, 1000);
                     },
                     error: function () {
                         toastr.error('Failed to create task.');
@@ -209,6 +224,9 @@
                         toastr.success('Task successfully updated!');
                         $('#EditModal').modal('hide');
                         $('#edit-task-form')[0].reset();
+                        setTimeout(function () {
+                            location.reload(); // Refresh the page after 1 second
+                        }, 1000);
                     },
                     error: function (response) {
                         toastr.error('Failed to update task.');
@@ -225,10 +243,31 @@
                     success: function (response) {
                         toastr.success('Task Completed!');
                         $('#exampleModal2').modal('hide');
-                        console.log(response);
+                        setTimeout(function () {
+                            location.reload(); // Refresh the page after 1 second
+                        }, 1000);
                     },
                     error: function (response) {
                         toastr.error('Failed to update task.');
+                        console.log(response)
+                    }
+                });
+            });
+
+            $('#deleteForm').on('submit', function (event) {
+                event.preventDefault(); // Prevent default form submission
+                $.ajax({
+                    url: '/tasks/' + taskId + '/delete',
+                    type: 'POST',
+                    success: function (response) {
+                        toastr.success('Task Deleted!');
+                        $('#exampleModal2').modal('hide');
+                        setTimeout(function () {
+                            location.reload(); // Refresh the page after 1 second
+                        }, 1000);
+                    },
+                    error: function (response) {
+                        toastr.error('Failed to delete task.');
                         console.log(response)
                     }
                 });
