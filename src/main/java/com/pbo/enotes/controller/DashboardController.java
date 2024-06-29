@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 public class DashboardController {
 
@@ -34,7 +33,6 @@ public class DashboardController {
         if (loggedUser != null) {
             List<Note> notes = noteService.getAllNoteByUserId(loggedUser.getId());
 
-
             model.addAttribute("username", loggedUser.getUsername());
             model.addAttribute("jumlah", notes.size());
             model.addAttribute("notes", notes);
@@ -47,5 +45,5 @@ public class DashboardController {
         User loggedUser = (User) session.getAttribute("user");
         return "home/index";
     }
-    
+
 }

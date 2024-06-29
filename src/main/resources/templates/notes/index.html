@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,53 +9,136 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"> 
     <script src="/js/bootstrap.bundle.min.js"></script>
     <script src="/js/dashboard.js" defer></script>
+    <link rel="stylesheet" href="/assets/ckeditor5/ckeditor5.css" />
     <title>Tasks</title> 
 </head>
 <body>
     <div th:replace="fragments/sidebar :: sidebar"></div>
-
-    <section class="home">
-        <div class="text">Notes</div>
-        <main> 
-            <button type="button" class="btn btn-primary custom-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                <i class="fa-solid fa-plus"></i> 
-            </button>
-  
-            <!-- Modal -->
-            <div class="modal fade custom-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <form id="task-form">
-                    <div class="modal-dialog modal-dialog-centered">
+    <body>
+        <div class="container mt-5">
+          <div class="card-note">
+              <div class="cardbody-notes">
+                <div class="row">
+                  <div class="col">
+                      <div class="cardempty-note">
+                          <div class="card-body">
+                          <button type="button" class="btn btn-primary custom-button-note" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      <i class="fa-solid fa-plus"></i> 
+                  </button>
+                          </div>
+                          <blockquote class="blockquote mb-0">
+                           <i> <p style="padding: 50px;">Create your own note here . . . . </p> </i>
+                          </blockquote>
+                        </div>  
+                  </div>
+      
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
                         <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" style="text-align: center;" id="exampleModalLabel">TASK LIST</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="inputTitle" class="form-label">Title</label>
-                                    <input type="text" class="form-control" id="inputTitle" placeholder="Input title">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="inputTask" class="form-label">Input Task</label>
-                                    <input type="text" class="form-control" id="inputTask" placeholder="Enter your task description here">
-                                </div> 
-                                <div class="mb-3">
-                                    <label for="inputDate" class="form-label">Deadline</label>
-                                    <input type="date" class="form-control" id="inputDate">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="taskDesc" class="form-label">Description</label>
-                                    <textarea class="form-control" id="taskDesc" rows="4" placeholder="Enter task description here..."></textarea>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">NOTES</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form>
+                              <div class="mb-3">
+                                <label for="title-note" class="col-form-label">title:</label>
+                                <input type="text" class="form-control" id="title-note">
+                              </div>
+                              <div class="mb-3">
+                                  <textarea name="editor" id="editor">
+                                  </textarea>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Send message</button>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                </form>
+  
+  
+                    <div class="col">
+                      <div class="cardempty-note">
+                          <div class="card-body">
+                          <button type="button" class="btn btn-primary custom-button-note" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      <i class="fa-solid fa-plus"></i> 
+                  </button>
+                          </div>
+                          <blockquote class="blockquote mb-0">
+                           <i> <p style="padding: 50px;">Create your own note here 2 . . . . </p> </i>
+                          </blockquote>
+                        </div>  
+                  </div>
+      
+                  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">NOTES</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <form>
+                              <div class="mb-3">
+                                <label for="title-note" class="col-form-label">title:</label>
+                                <input type="text" class="form-control" id="title-note">
+                              </div>
+                              <div class="mb-3">
+                                  <textarea name="editor" id="editor">
+                                  </textarea>
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Send message</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+  
+  
+  
             </div>
-        </main>
-    </section>
-</body>
-</html>
+              </div>
+            </div>
+        </div>
+        <script type="importmap">
+          {
+              "imports": {
+                  "ckeditor5": "/assets/ckeditor5/ckeditor5.js",
+                  "ckeditor5/": "/assets/ckeditor5"
+              }
+          }
+      </script>
+  
+      <script type="module">
+          import {
+              ClassicEditor,
+              Essentials,
+              Bold,
+              Italic,
+              Font,
+              Paragraph
+          } from 'ckeditor5';
+      
+          ClassicEditor
+              .create( document.querySelector( '#editor' ), {
+                  plugins: [ Essentials, Bold, Italic, Font, Paragraph ],
+                  toolbar: {
+                      items: [
+                          'undo', 'redo', '|', 'bold', 'italic', '|',
+                          'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+                      ]
+                  }
+              } )
+              .then( /* ... */ )
+              .catch( /* ... */ );
+      </script>      
+      </body>
+  </html>

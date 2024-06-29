@@ -428,3 +428,31 @@ ol, ul {
 .row{
     margin: 15px;
 }
+
+.card-note {
+    max-width: 5000px;
+    max-height:200px;
+    overflow: hidden;
+}
+.cardempty-note {
+    width: 500px;  
+    height: 200px; 
+    border: 1px solid #e0dfdf; 
+    border-radius: 8px; 
+    background-color: #ffffff; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    overflow: hidden; 
+}
+
+.custom-button-note {
+    background-color: #dfdcdc !important;
+    border: none !important; 
+    padding: 50px 40px!important; 
+    border-radius: 5px !important; 
+    font-size: 50px !important; 
+    color: #ffffff !important; 
+    cursor: pointer!important; 
+    margin-left: 12px;
+}
