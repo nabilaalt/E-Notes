@@ -19,7 +19,10 @@ public class Task implements Serializable {
     private Long id;
 
     private String title;
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
+    private String excerpt;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dueDate;
 
@@ -73,11 +76,6 @@ public class Task implements Serializable {
         return dueDate.toString();
     }
 
-
-
-    
-    
-
     public boolean isCompleted() {
         return completed;
     }
@@ -102,9 +100,26 @@ public class Task implements Serializable {
         this.updatedAt = updatedAt;
     }
 
+    public void setExcerpt(String description){
+        this.excerpt = truncateDescription(description, 10);
+    }
+
+    public String getExcerpt(){
+        return this.excerpt;
+    }
 
 
-    public void setUser(Object user) {
-        
+
+    private String truncateDescription(String description, int wordLimit) {
+        String[] words = description.split("\\s+");
+        if (words.length > wordLimit) {
+            StringBuilder truncated = new StringBuilder();
+            for (int i = 0; i < wordLimit; i++) {
+                truncated.append(words[i]).append(" ");
+            }
+            return truncated.toString().trim() + "...";
+        } else {
+            return description;
+        }
     }
 }

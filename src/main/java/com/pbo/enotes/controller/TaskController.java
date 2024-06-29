@@ -166,11 +166,7 @@ public class TaskController {
 
     }
 
-    @GetMapping("/new")
-    public String showCreateForm(Model model) {
-        model.addAttribute("task", new Task());
-        return "tasks/new";
-    }
+
 
     @PostMapping
     public String createTask(@RequestParam Long userId, @ModelAttribute Task task) {
@@ -178,6 +174,8 @@ public class TaskController {
         Optional<User> optionalUser = userService.getUserById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
+
+            task.setExcerpt(task.getDescription());
 
             // Tambahkan task ke user
             user.getTasks().add(task);
