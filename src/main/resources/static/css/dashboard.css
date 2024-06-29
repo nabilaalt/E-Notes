@@ -126,10 +126,6 @@ body.dark .sidebar header .toggle {
     transform: translateY(-50%) rotate(0deg);
 }
 
-/* .sidebar .menu {
-    margin-top: 40px;
-} */
-
 .sidebar li a {
     list-style: none;
     height: 100%;
@@ -437,7 +433,7 @@ ol, ul {
 }
 
 .card-note {
-    max-width: 5000px;
+    max-width: auto;
     max-height:200px;
     overflow: hidden;
 }
