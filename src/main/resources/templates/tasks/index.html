@@ -89,7 +89,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="inputDate" class="form-label">Deadline</label>
-                                    <input type="date" class="form-control" id="dueDate" name="dueDate">
+                                    <input type="date" class="form-control" id="inputDate" name="dueDate">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -317,6 +317,7 @@
                     $('#EditModal #inputDate').val(response.dueDate);
 
                     $('#EditModal').modal('show');
+                    console.log(response.title);
                 },
                 error: function (response) {
                     toastr.error('Failed to load task details.');

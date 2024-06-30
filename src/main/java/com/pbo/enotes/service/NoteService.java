@@ -1,6 +1,8 @@
 package com.pbo.enotes.service;
 
+import com.pbo.enotes.ResourceNotFoundException;
 import com.pbo.enotes.entity.Note;
+import com.pbo.enotes.entity.Task;
 import com.pbo.enotes.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,16 @@ public class NoteService {
     }
 
     public void updateNoteById(Long id, Note noteDetails) {
-        
+        Note note = noteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Task not found for this id :: " + id));
+
+        note.setTitle(noteDetails.getTitle());
+        note.setContent(noteDetails.getContent());
+        note.setExcerpt(noteDetails.getContent());
+
+        noteRepository.save(note);
+    }
+
+    public Optional<Note> getTaskById(Long taskId) {
+        return noteRepository.findById(taskId);
     }
 }

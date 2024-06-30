@@ -1,6 +1,7 @@
 package com.pbo.enotes.controller;
 
 import com.pbo.enotes.entity.Note;
+import com.pbo.enotes.entity.Task;
 import com.pbo.enotes.entity.User;
 import com.pbo.enotes.service.NoteService;
 import com.pbo.enotes.service.UserService;
@@ -8,6 +9,8 @@ import com.pbo.enotes.service.UserService;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +31,7 @@ public class NoteController {
     @PostMapping
     public String createNote(@RequestParam Long userId, @ModelAttribute Note note) {
         return userService.getUserById(userId).map(user -> {
+            note.setExcerpt(note.getContent());
             user.getNotes().add(note);
             userService.saveUser(user);
             return "redirect:/notes";
@@ -35,13 +39,12 @@ public class NoteController {
     }
 
     @GetMapping("/{id}")
-    public String getNoteById(@PathVariable Long id, Model model) {
-        Optional<Note> note = noteService.getNoteById(id);
+    public ResponseEntity<?> getNoteById(@PathVariable(value = "id") Long taskId) {
+        Optional<Note> note = noteService.getTaskById(taskId);
         if (note.isPresent()) {
-            model.addAttribute("note", note.get());
-            return "notes/show";
+            return ResponseEntity.ok(note.get());
         } else {
-            return "error/404";
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Note not found");
         }
     }
 
@@ -50,9 +53,17 @@ public class NoteController {
         User loggedUser = (User) session.getAttribute("user");
         if (loggedUser != null) {
             List<Note> notes = noteService.getAllNoteByUserId(loggedUser.getId());
+            int outerSize = (int) Math.ceil(notes.size() / 2.0);
+            Note[][] noteArray2D = new Note[outerSize][2];
+
+            // Mengisi array 2D dengan task
+            for (int i = 0; i < notes.size(); i++) {
+                noteArray2D[i / 2][i % 2] = notes.get(i);
+            }
+
             model.addAttribute("user", loggedUser);
             model.addAttribute("jumlah", notes.size());
-            model.addAttribute("notes", notes);
+            model.addAttribute("notes", noteArray2D);
             return "notes/index";
         } else {
             return "redirect:/login";
@@ -76,7 +87,7 @@ public class NoteController {
         }
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/edit")
     public String updateNote(@PathVariable Long id, @ModelAttribute Note noteDetails) {
         noteService.updateNoteById(id, noteDetails);
         return "redirect:/notes";

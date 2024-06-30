@@ -28,7 +28,9 @@ public class Note implements Serializable {
     @Lob
     @Column(columnDefinition = "LONGTEXT")
     private String content;
-    private String authorName;
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
+    private String excerpt;
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -53,9 +55,6 @@ public class Note implements Serializable {
         return content;
     }
 
-    public String getAuthorName() {
-        return authorName;
-    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -78,8 +77,12 @@ public class Note implements Serializable {
         this.content = content;
     }
 
-    public void setAuthorName(String authorName) {
-        this.authorName = authorName;
+    public void setExcerpt(String content) {
+        this.excerpt = truncateDescription(content, 15 );
+    }
+
+    public String getExcerpt(){
+        return this.excerpt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
@@ -88,5 +91,18 @@ public class Note implements Serializable {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    private String truncateDescription(String content, int wordLimit) {
+        String[] words = content.split("\\s+");
+        if (words.length > wordLimit) {
+            StringBuilder truncated = new StringBuilder();
+            for (int i = 0; i < wordLimit; i++) {
+                truncated.append(words[i]).append(" ");
+            }
+            return truncated.toString().trim() + "...";
+        } else {
+            return content;
+        }
     }
 }
