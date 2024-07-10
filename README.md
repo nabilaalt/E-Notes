@@ -1,5 +1,5 @@
 # E-Notes
-##Project ini dibuat untuk keperluan tugas besar mata kuliah Pemrograman Berorientasi Object, Dosen Pengampu (Aldy Rialdy Atmadja, MT.)
+## Project ini dibuat untuk keperluan tugas besar mata kuliah Pemrograman Berorientasi Object, Dosen Pengampu (Aldy Rialdy Atmadja, MT.)
 
 E-Notes adalah aplikasi manajemen catatan dan tugas yang dibangun menggunakan Java dan framework Spring Boot. Aplikasi ini memungkinkan pengguna untuk membuat, mengedit, menghapus, dan melihat catatan serta tugas mereka dengan mudah.
 
@@ -44,7 +44,7 @@ E-Notes adalah aplikasi manajemen catatan dan tugas yang dibangun menggunakan Ja
    ```
    mvn spring-boot:run
    ```
-##Konfigurasi Database
+## Konfigurasi Database
 Aplikasi ini menggunakan MySQL sebagai database. Pastikan Anda telah mengkonfigurasi `application.properties` dengan benar:
 ```
 spring.datasource.url=jdbc:mysql://localhost:3306/enotes
@@ -52,7 +52,7 @@ spring.datasource.username=root
 spring.datasource.password=yourpassword
 spring.jpa.hibernate.ddl-auto=update
 ```
-##Kontribusi
+## Kontribusi
 1. Fork repository ini.
 2. Buat branch fitur (git checkout -b feature/AmazingFeature).
 3. Commit perubahan Anda (git commit -m 'Add some AmazingFeature').
