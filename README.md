@@ -2,7 +2,7 @@
 ## Project ini dibuat untuk keperluan tugas besar mata kuliah Pemrograman Berorientasi Object, Dosen Pengampu : Aldy Rialdy Atmadja, MT.
 
 E-Notes adalah aplikasi manajemen catatan dan tugas yang dibangun menggunakan Java dan framework Spring Boot. Aplikasi ini memungkinkan pengguna untuk membuat, mengedit, menghapus, dan melihat catatan serta tugas mereka dengan mudah.
-### App yang sudah di hosting :  https://e-notes-production.up.railway.app/login (masih terdapat bug dalam request)
+
 
 ## Pembuat
 - Muhammad Rizki Al-Fathir (1227050093)
